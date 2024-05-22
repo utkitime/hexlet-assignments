@@ -2,6 +2,7 @@ package exercise;
 
 import exercise.model.Address;
 import exercise.annotation.Inspect;
+
 import java.lang.reflect.Method;
 
 public class Application {
@@ -12,7 +13,9 @@ public class Application {
 
             Class<?> returnType = method.getReturnType();
             if (method.isAnnotationPresent(Inspect.class)) {
-                System.out.println("Method " + method.getName() + "returns a value of type " + returnType.getName());
+                System.out.println(
+                        "Method " + method.getName() + "returns a value of type " + returnType.getSimpleName()
+                );
             }
         }
     }
