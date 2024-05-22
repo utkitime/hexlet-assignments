@@ -10,8 +10,9 @@ public class Application {
 
         for (Method method : Address.class.getDeclaredMethods()) {
 
+            Class<?> returnType = method.getReturnType();
             if (method.isAnnotationPresent(Inspect.class)) {
-                System.out.println("Method " + method.getName() + "returns a value of type " + method.getReturnType());
+                System.out.println("Method " + method.getName() + "returns a value of type " + returnType.getName());
             }
         }
     }
