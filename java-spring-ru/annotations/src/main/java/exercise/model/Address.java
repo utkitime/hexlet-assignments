@@ -21,7 +21,6 @@ public class Address {
         return postalCode;
     }
 
-    @Inspect
     public String getFullAddress() {
         return city + " " + postalCode;
     }
