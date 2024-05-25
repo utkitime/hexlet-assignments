@@ -42,7 +42,7 @@ public class Application {
     @GetMapping("/posts/{id}") // Вывод страницы
     public Optional<Post> show(@PathVariable String id) {
         var post = posts.stream()
-                .filter(p -> p.getSlug().equals(id))
+                .filter(p -> p.getId().equals(id))
                 .findFirst();
         return post;
     }
@@ -54,8 +54,8 @@ public class Application {
                 .findFirst();
         if (maybePost.isPresent()) {
             var post = maybePost.get();
-            post.setSlug(data.getId());
-            post.setName(data.getTitle());
+            post.setId(data.getId());
+            post.setTitle(data.getTitle());
             post.setBody(data.getBody());
         }
         return data;
