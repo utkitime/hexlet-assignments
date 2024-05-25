@@ -50,12 +50,12 @@ public class Application {
     @PutMapping("/posts/{id}") // Обновление страницы
     public Post update(@PathVariable String id, @RequestBody Post data) {
         var maybePost = posts.stream()
-                .filter(p -> p.getSlug().equals(id))
+                .filter(p -> p.getId().equals(id))
                 .findFirst();
         if (maybePost.isPresent()) {
             var post = maybePost.get();
-            post.setSlug(data.getSlug());
-            post.setName(data.getName());
+            post.setSlug(data.getId());
+            post.setName(data.getTitle());
             post.setBody(data.getBody());
         }
         return data;
@@ -63,6 +63,6 @@ public class Application {
 
     @DeleteMapping("/posts/{id}") // Удаление страницы
     public void destroy(@PathVariable String id) {
-        posts.removeIf(p -> p.getSlug().equals(id));
+        posts.removeIf(p -> p.getId().equals(id));
     }
 }
