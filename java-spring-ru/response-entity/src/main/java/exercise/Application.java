@@ -28,21 +28,10 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
-
 //    GET /posts — список всех постов. Должен возвращаться статус 200 и заголовок X-Total-Count, в котором содержится количество постов
 //    GET /posts/{id} – просмотр конкретного поста. Если пост найден, должен возвращаться статус 200, если нет — статус 404
 //    POST /posts – создание нового поста. Должен возвращаться статус 201
 //    PUT /posts/{id} – Обновление поста. Должен возвращаться статус 200. Если пост уже не существует, то должен возвращаться 204
-
-
-//    @GetMapping("/pages")
-//    public ResponseEntity<List<Page>> index(@RequestParam(defaultValue = "10") Integer limit) {
-//        var result = pages.stream().limit(limit).toList();
-//
-//        return ResponseEntity.ok()
-//                .header("X-Total-Count", String.valueOf(pages.size()))
-//                .body(result);
-//    }
 
     @GetMapping("/posts")
     public ResponseEntity<List<Post>> postsSize() {
@@ -64,55 +53,34 @@ public class Application {
         return ResponseEntity.ok(post.get());
     }
 
-    //    @PostMapping("/pages") // Создание страницы
-//    public Page create(@RequestBody Page page) {
-//        pages.add(page);
-//        return page;
-//    }
-    @PostMapping("/pages")
+    @PostMapping("/posts")
     public ResponseEntity<Post> createPost(@RequestBody Post post) {
-        posts.add(post);
-        return ResponseEntity.created().body(post);
+        posts.add(post); // Добавляем пост в список
+//        URI location = ServletUriComponentsBuilder
+//                .fromCurrentRequest()
+//                .path("/{id}")
+//                .buildAndExpand(post.getId())
+//                .toUri(); // Формируем URI для созданного ресурса
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(post); // Возвращаем созданный пост со статусом 201 Created и URI созданного ресурса
     }
 
     @PutMapping("/posts/{id}")
     public ResponseEntity<Post> updatePost(@PathVariable String id, @RequestBody Post data) {
         var potentialPost = posts.stream()
-                .filter(p -> p.getSlug().equals(id))
+                .filter(p -> p.getId().equals(id))
                 .findFirst();
         if (potentialPost.isPresent()) {
             var post = potentialPost.get();
             post.setId(data.getId());
-            post.setTitle(data.getTitle());
-            post.setBody(data.getBody());
+            post.setTitle(data.getTitle()); // Обновляем заголовок
+            post.setBody(data.getBody());   // Обновляем тело
+            return ResponseEntity.ok(post); // Возвращаем обновленный пост со статусом 200 OK
         } else {
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.noContent().build(); // Возвращаем статус 204 No Content, если пост не найден
         }
-        return ResponseEntity.ok(post.get);
     }
-
-
-//    @PutMapping("/pages/{id}") // Обновление страницы
-//    public Page update(@PathVariable String id, @RequestBody Page data) {
-//        var maybePage = pages.stream()
-//                .filter(p -> p.getSlug().equals(id))
-//                .findFirst();
-//        if (maybePage.isPresent()) {
-//            var page = maybePage.get();
-//            page.setSlug(data.getSlug());
-//            page.setName(data.getName());
-//            page.setBody(data.getBody());
-//        }
-//        return data;
-//    }
-
-//    @GetMapping("/pages/{id}")
-//    public ResponseEntity<Page> show(@PathVariable String id) {
-//        var page = pages.stream()
-//                .filter(p -> p.getId().equals(id))
-//                .findFirst();
-//        return ResponseEntity.of(page);
-//    }
 
     @DeleteMapping("/posts/{id}")
     public void destroy(@PathVariable String id) {
