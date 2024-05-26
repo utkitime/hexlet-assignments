@@ -1,6 +1,7 @@
 package exercise.controller.users;
 
 import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.http.ResponseEntity;
+
 import java.net.URI;
 
 import exercise.model.Post;
@@ -33,8 +35,10 @@ public class PostsController {
     public ResponseEntity<Post> createPost(@PathVariable int id, @RequestBody Post post) {
         post.setUserId(id);
         posts.add(post);
-        URI location = URI.create(String.format("/api/users/%d/posts/%d", id, post.getUserId()));
-        return ResponseEntity.created(location).body(post);
+//        URI location = URI.create(String.format("/api/users/%d/posts/%d", id, post.getUserId()));
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(post);
     }
 }
 
