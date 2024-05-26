@@ -22,7 +22,7 @@ import exercise.Data;
 public class PostsController {
     private List<Post> posts = Data.getPosts();
 
-    @GetMapping("/posts/{id}")
+    @GetMapping("/users/{id}/posts")
     public ResponseEntity<List<Post>> postsListById(@PathVariable int id) {
         var userPosts = posts.stream()
                 .filter(p -> p.getUserId() == id)
