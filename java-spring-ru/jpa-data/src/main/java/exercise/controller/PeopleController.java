@@ -49,14 +49,17 @@ public class PeopleController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePerson(@PathVariable Long id) {
-        Optional<Person> person = personRepository.findById(id);
-        if (person.isPresent()) {
-            personRepository.delete(person.get());
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @ResponseStatus(HttpStatus.OK)
+    public Void deletePerson(@PathVariable Long id) {
+        personRepository.deleteById(id);
+//        Optional<Person> person = personRepository.findById(id);
+//        if (person.isPresent()) {
+//            personRepository.delete(person.get());
+//            return ResponseEntity.noContent().build();
+//        } else {
+//            return ResponseEntity.notFound().build();
+//        }
+        return null;
     }
 
 }
