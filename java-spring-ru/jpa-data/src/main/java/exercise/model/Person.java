@@ -13,7 +13,7 @@ import lombok.Setter;
 public class Person {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-//    @Column(unique = true)
+    @Column(unique = true)
     private Long id;
 
     private String firstName;
