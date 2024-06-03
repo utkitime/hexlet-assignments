@@ -7,13 +7,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "users")
+@Table(name = "person")
 @Getter
 @Setter
 public class Person {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(unique = true)
+//    @Column(unique = true)
     private Long id;
 
     private String firstName;
