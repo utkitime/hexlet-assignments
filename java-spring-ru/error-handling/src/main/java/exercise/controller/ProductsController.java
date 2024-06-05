@@ -39,7 +39,7 @@ public class ProductsController {
 
 //    GET /products/{id} — просмотр конкретного товара
 //    PUT /products/{id} — обновление данных товара
-    @GetMapping(path = "/{id")
+    @GetMapping(path = "/{id}")
     public Product getProductById(@PathVariable long id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product with id " + id + " not found."));
