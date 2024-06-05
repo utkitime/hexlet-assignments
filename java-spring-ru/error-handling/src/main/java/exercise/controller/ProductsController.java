@@ -1,6 +1,7 @@
 package exercise.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,16 +46,15 @@ public class ProductsController {
     }
 
     @PutMapping(path = "/{id}")
-    public Product updateProduct(@PathVariable long id, @RequestBody Product data) {
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Product> updateProduct(@PathVariable long id, @RequestBody Product data) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product with id " + id + " not found."));
         product.setId(data.getId());
         product.setTitle(data.getTitle());
         product.setPrice(data.getPrice());
         productRepository.save(product);
-
-
-        return product;
+        return ResponseEntity.ok(product);
     }
 
     @DeleteMapping(path = "/{id}")
