@@ -50,7 +50,7 @@ public class ProductsController {
     public ResponseEntity<Product> updateProduct(@PathVariable long id, @RequestBody Product data) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product with id " + id + " not found."));
-        product.setId(data.getId());
+//        product.setId(data.getId());
         product.setTitle(data.getTitle());
         product.setPrice(data.getPrice());
         productRepository.save(product);
