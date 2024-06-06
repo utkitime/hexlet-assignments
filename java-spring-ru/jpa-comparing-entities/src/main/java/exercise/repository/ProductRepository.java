@@ -9,5 +9,5 @@ import exercise.model.Product;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    List<Product> findByTitleAndPrice(String title, Double price);
+    List<Product> findByTitleAndPrice(String title, int price);
 }
