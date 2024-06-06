@@ -25,5 +25,5 @@ public class Product {
     private String title;
 
     @EqualsAndHashCode.Include
-    private Double price;
+    private int price;
 }
