@@ -1,10 +1,6 @@
 package exercise.model;
 
-import jakarta.persistence.Id;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Table;
-import static jakarta.persistence.GenerationType.IDENTITY;
+import jakarta.persistence.*;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -14,7 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "products")
-//@Data
 @Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Product {
