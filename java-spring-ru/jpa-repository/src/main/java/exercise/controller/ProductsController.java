@@ -22,7 +22,7 @@ public class ProductsController {
     @Autowired
     private ProductRepository productRepository;
 
-    @GetMapping("/products")
+    @GetMapping("")
     public ResponseEntity<List<Product>> getProductsByPriceRange(
             @RequestParam(required = false) Integer min,
             @RequestParam(required = false) Integer max) {
