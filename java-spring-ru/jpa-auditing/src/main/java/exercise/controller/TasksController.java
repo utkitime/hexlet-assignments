@@ -60,7 +60,7 @@ public class TasksController {
                 .orElseThrow(() -> new ResourceNotFoundException("Product with id " + id + " not found"));
 
         taskToUpdate.setTitle(task.getTitle());
-        taskToUpdate.setPrice(task.getPrice());
+        taskToUpdate.setDescription(task.getDescription());
 
         taskRepository.save(taskToUpdate);
 
