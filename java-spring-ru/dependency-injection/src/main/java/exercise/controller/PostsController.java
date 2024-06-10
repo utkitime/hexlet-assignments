@@ -64,7 +64,7 @@ public class PostsController {
                 .map(post -> {
                     commentRepository.deleteByPostId(id);
                     postRepository.delete(post);
-                    return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+                    return new ResponseEntity<Void>(HttpStatus.OK);
                 })
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

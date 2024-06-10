@@ -59,7 +59,7 @@ public class CommentsController {
         return commentRepository.findById(id)
                 .map(comment -> {
                     commentRepository.delete(comment);
-                    return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+                    return new ResponseEntity<Void>(HttpStatus.OK);
                 })
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
