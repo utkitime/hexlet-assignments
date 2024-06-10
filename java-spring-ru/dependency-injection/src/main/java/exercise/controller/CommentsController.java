@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,9 +16,6 @@ import java.util.List;
 
 import exercise.model.Comment;
 import exercise.repository.CommentRepository;
-import exercise.exception.ResourceNotFoundException;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/comments")
@@ -50,7 +46,7 @@ public class CommentsController {
     public ResponseEntity<Comment> updateComment(@PathVariable Long id, @RequestBody Comment commentDetails) {
         return commentRepository.findById(id)
                 .map(comment -> {
-                    comment.setContent(commentDetails.getContent());
+                    comment.setBody(commentDetails.getBody());
                     comment.setPostId(commentDetails.getPostId());
                     Comment updatedComment = commentRepository.save(comment);
                     return ResponseEntity.ok().body(updatedComment);

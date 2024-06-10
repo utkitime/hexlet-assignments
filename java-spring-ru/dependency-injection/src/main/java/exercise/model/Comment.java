@@ -31,4 +31,20 @@ public class Comment {
 
     @CreatedDate
     private LocalDate createdAt;
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setPostId(long postId) {
+        this.postId = postId;
+    }
+
+    public long getPostId() {
+        return postId;
+    }
 }
