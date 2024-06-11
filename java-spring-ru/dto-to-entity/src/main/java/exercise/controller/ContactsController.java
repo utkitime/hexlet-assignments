@@ -20,7 +20,7 @@ public class ContactsController {
     @Autowired
     private ContactRepository contactRepository;
 
-    @PostMapping("/posts")
+    @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     public ContactDTO create(@RequestBody ContactCreateDTO contactData) {
         var contact = toEntity(contactData); // Сначала в Entity
