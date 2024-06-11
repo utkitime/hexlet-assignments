@@ -35,7 +35,7 @@ public class PostsController {
     @GetMapping("/posts/{id}")
     public ResponseEntity<PostDTO> getPostById(@PathVariable Long id) {
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Post not found with id " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Post with id " + id + " not found"));
         PostDTO postDTO = convertToPostDTO(post);
         return ResponseEntity.ok(postDTO);
     }
