@@ -28,10 +28,6 @@ public class ContactsController {
         var contactDTO = toDTO(contact); // Потом в DTO
         return contactDTO;
     }
-}
-
-
-
 
     private ContactDTO toDTO(Contact contact) {
         var dto = new ContactDTO();
@@ -44,8 +40,14 @@ public class ContactsController {
     }
 
     private Contact toEntity(ContactCreateDTO contactDto) {
-        var contact = new Post();
+        var contact = new Contact();
         contact.setLastName(contactDto.getLastName());
         contact.setFirstName(contactDto.getFirstName());
         return contact;
     }
+}
+
+
+
+
+
