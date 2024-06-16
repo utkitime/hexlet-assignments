@@ -22,7 +22,7 @@ public abstract class ProductMapper {
 //            @Mapping(source = "category.id", target = "categoryId"),
 //            @Mapping(source = "category.name", target = "category.name")
 //    })
-    @Mapping(source = "category", target = "categoryId")
+    @Mapping(source = "category.id", target = "categoryId")
     public abstract ProductDTO toDto(Product product);
 
     //    @Mappings({
