@@ -13,7 +13,7 @@ import java.util.List;
 
 @Component
 public class ProductSpecification {
-    public static Specification<Product> filterByParams(ProductParamsDTO params) {
+    public Specification<Product> build(ProductParamsDTO params) {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
 

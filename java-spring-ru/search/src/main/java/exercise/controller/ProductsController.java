@@ -1,19 +1,14 @@
 package exercise.controller;
 
-import java.util.List;
-
 import exercise.dto.ProductCreateDTO;
 import exercise.dto.ProductDTO;
 import exercise.dto.ProductParamsDTO;
 import exercise.dto.ProductUpdateDTO;
 import exercise.mapper.ProductMapper;
-import exercise.model.Product;
-import exercise.service.ProductService;
 import exercise.specification.ProductSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,11 +34,14 @@ public class ProductsController {
     @Autowired
     private ProductMapper productMapper;
 
+//    @Autowired
+//    private ProductService productService;
+
     @Autowired
-    private ProductService productService;
+    private ProductSpecification specBuilder;
 
     @GetMapping("")
-    public Page<Product> getFilteredProducts(@RequestParam(required = false) String titleCont,
+    public Page<ProductDTO> getFilteredProducts(@RequestParam(required = false) String titleCont,
                                              @RequestParam(required = false) Long categoryId,
                                              @RequestParam(required = false) Integer priceLt,
                                              @RequestParam(required = false) Integer priceGt,
@@ -57,8 +55,10 @@ public class ProductsController {
         params.setPriceGt(priceGt);
         params.setRatingGt(ratingGt);
 
-        Pageable pageable = PageRequest.of(page, size);
-        return productService.getFilteredProducts(params, pageable);
+        var spec = specBuilder.build(params);
+        var products = productRepository.findAll(spec, PageRequest.of(page - 1, 10));
+
+        return products.map(productMapper::map);
     }
 
     @PostMapping("")

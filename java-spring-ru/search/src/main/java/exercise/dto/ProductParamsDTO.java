@@ -31,4 +31,24 @@ public class ProductParamsDTO {
     public String getTitleCont() {
         return titleCont;
     }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public void setPriceGt(Integer priceGt) {
+        this.priceGt = priceGt;
+    }
+
+    public void setPriceLt(Integer priceLt) {
+        this.priceLt = priceLt;
+    }
+
+    public void setRatingGt(Double ratingGt) {
+        this.ratingGt = ratingGt;
+    }
+
+    public void setTitleCont(String titleCont) {
+        this.titleCont = titleCont;
+    }
 }
