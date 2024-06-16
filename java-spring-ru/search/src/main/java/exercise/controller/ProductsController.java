@@ -42,7 +42,7 @@ public class ProductsController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping("/products")
+    @GetMapping("")
     public Page<Product> getFilteredProducts(@RequestParam(required = false) String titleCont,
                                              @RequestParam(required = false) Long categoryId,
                                              @RequestParam(required = false) Integer priceLt,
