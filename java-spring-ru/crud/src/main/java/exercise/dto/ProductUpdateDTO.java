@@ -17,4 +17,8 @@ public class ProductUpdateDTO {
 
     @NotNull
     private JsonNullable<Integer> price;
+
+    public JsonNullable<Long> getCategoryId() {
+        return categoryId;
+    }
 }

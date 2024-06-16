@@ -81,10 +81,11 @@ public class ProductsController {
         var product =  productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product with id " + id + " not found"));
         productMapper.update(productDTO, product);
-        var category = categoryRepository.findById(productDTO.getCategoryId());
-        product.setCategory(category.orElseThrow(
+        var category = categoryRepository.findById(productDTO.getCategoryId().get())
+                .orElseThrow(
                 () -> new ResourceNotFoundException("Category with id " + id + " not found")
-        ));
+        );
+        product.setCategory(category);
         productRepository.save(product);
         return productMapper.toDto(product);
     }
