@@ -64,16 +64,14 @@ public class ProductsController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ProductDTO createProduct(@Valid @RequestBody ProductDTO productDTO) {
+    public ResponseEntity<?> createProduct(@Valid @RequestBody ProductDTO productDTO) {
         var categoryId = productDTO.getCategoryId();
         if (categoryId == null || !categoryRepository.existsById(categoryId)) {
-            Set<ConstraintViolation<ProductDTO>> violations = new HashSet<>();
-            violations.add((ConstraintViolation<ProductDTO>) productDTO);
-            throw new ConstraintViolationException("Category with id " + categoryId + " not found", violations);
+            return new ResponseEntity<>("Category not found", HttpStatus.BAD_REQUEST);
         }
         var product = productMapper.toEntity(productDTO);
         productRepository.save(product);
-        return productMapper.toDto(product);
+        return new ResponseEntity<>(productMapper.toDto(product), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
