@@ -2,6 +2,7 @@ package exercise.mapper;
 
 import exercise.dto.ProductCreateDTO;
 import exercise.dto.ProductDTO;
+import exercise.dto.ProductUpdateDTO;
 import exercise.model.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -28,4 +29,7 @@ public abstract class ProductMapper {
 
     @Mapping(source = "categoryId", target = "category")
     public abstract Product toEntity(ProductDTO productDTO);
+
+    @Mapping(source = "categoryId", target = "category")
+    public abstract Product update(ProductUpdateDTO dto, @MappingTarget Product product);
 }
