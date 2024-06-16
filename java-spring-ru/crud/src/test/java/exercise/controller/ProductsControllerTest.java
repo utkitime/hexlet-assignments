@@ -134,7 +134,7 @@ class ProductsControllerTest {
     public void testUpdate() throws Exception {
         productRepository.save(testProduct);
 
-        var dto = mapper.map(testProduct);
+        var dto = mapper.toDto(testProduct);
 
         dto.setTitle("new title");
         dto.setPrice(123);
