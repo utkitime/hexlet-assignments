@@ -25,6 +25,9 @@ import exercise.exception.ResourceNotFoundException;
 import exercise.repository.ProductRepository;
 import jakarta.validation.Valid;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/products")
 public class ProductsController {
@@ -41,13 +44,13 @@ public class ProductsController {
     private ProductSpecification specBuilder;
 
     @GetMapping("")
-    public Page<ProductDTO> getFilteredProducts(@RequestParam(required = false) String titleCont,
-                                             @RequestParam(required = false) Long categoryId,
-                                             @RequestParam(required = false) Integer priceLt,
-                                             @RequestParam(required = false) Integer priceGt,
-                                             @RequestParam(required = false) Double ratingGt,
-                                             @RequestParam(defaultValue = "1") int page,
-                                             @RequestParam(defaultValue = "10") int size) {
+    public List<ProductDTO> getFilteredProducts(@RequestParam(required = false) String titleCont,
+                                                @RequestParam(required = false) Long categoryId,
+                                                @RequestParam(required = false) Integer priceLt,
+                                                @RequestParam(required = false) Integer priceGt,
+                                                @RequestParam(required = false) Double ratingGt,
+                                                @RequestParam(defaultValue = "1") int page,
+                                                @RequestParam(defaultValue = "10") int size) {
         ProductParamsDTO params = new ProductParamsDTO();
         params.setTitleCont(titleCont);
         params.setCategoryId(categoryId);
@@ -56,9 +59,11 @@ public class ProductsController {
         params.setRatingGt(ratingGt);
 
         var spec = specBuilder.build(params);
-        var products = productRepository.findAll(spec, PageRequest.of(page - 1, 10));
+        var products = productRepository.findAll(spec, PageRequest.of(page - 1, size));
 
-        return products.map(productMapper::map);
+        return products.stream()
+                .map(productMapper::map)
+                .collect(Collectors.toList());
     }
 
     @PostMapping("")
