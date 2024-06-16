@@ -85,7 +85,7 @@ public class ProductsController {
         product.setCategory(category.orElseThrow(
                 () -> new ResourceNotFoundException("Category with id " + id + " not found")
         ));
-        productRepository.save(product);
+        product = productRepository.save(product);
         return productMapper.toDto(product);
     }
 
