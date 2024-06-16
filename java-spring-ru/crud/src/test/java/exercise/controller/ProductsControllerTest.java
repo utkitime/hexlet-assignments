@@ -100,7 +100,7 @@ class ProductsControllerTest {
 
     @Test
     public void testCreate() throws Exception {
-        var dto = mapper.map(testProduct);
+        var dto = mapper.toDto(testProduct);
 
         var request = post("/products")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -119,7 +119,7 @@ class ProductsControllerTest {
 
     @Test
     public void testCreateWithWrongCategory() throws Exception {
-        var dto = mapper.map(testProduct);
+        var dto = mapper.toDto(testProduct);
         dto.setCategoryId(12345L);
 
         var request = post("/products")

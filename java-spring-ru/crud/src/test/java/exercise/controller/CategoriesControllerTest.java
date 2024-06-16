@@ -79,7 +79,7 @@ class CategoriesControllerTest {
 
     @Test
     public void testCreate() throws Exception {
-        var dto = mapper.map(testCategory);
+        var dto = mapper.toDto(testCategory);
 
         var request = post("/categories")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -96,7 +96,7 @@ class CategoriesControllerTest {
 
     @Test
     public void testCreateWithNotValidName() throws Exception {
-        var dto = mapper.map(testCategory);
+        var dto = mapper.toDto(testCategory);
         dto.setName("");
 
         var request = post("/categories")
