@@ -16,4 +16,8 @@ public class TaskUpdateDTO {
 
     @NotBlank
     private String description;
+
+    public Long getAssigneeId() {
+        return assigneeId;
+    }
 }
