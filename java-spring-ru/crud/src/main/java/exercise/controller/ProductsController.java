@@ -1,13 +1,17 @@
 package exercise.controller;
 
+import java.util.HashSet;
 import java.util.List;
 
 import exercise.dto.ProductCreateDTO;
 import exercise.dto.ProductDTO;
 import exercise.dto.ProductUpdateDTO;
 import exercise.mapper.ProductMapper;
+import exercise.model.Category;
 import exercise.model.Product;
 import exercise.repository.CategoryRepository;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +30,7 @@ import exercise.repository.ProductRepository;
 import jakarta.validation.Valid;
 
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/products")
@@ -62,7 +67,9 @@ public class ProductsController {
     public ProductDTO createProduct(@Valid @RequestBody ProductDTO productDTO) {
         var categoryId = productDTO.getCategoryId();
         if (categoryId == null || !categoryRepository.existsById(categoryId)) {
-            throw new ResourceNotFoundException("Category with id " + categoryId + " not found");
+            Set<ConstraintViolation<ProductDTO>> violations = new HashSet<>();
+            violations.add((ConstraintViolation<ProductDTO>) productDTO);
+            throw new ConstraintViolationException("Category with id " + categoryId + " not found", violations);
         }
         var product = productMapper.toEntity(productDTO);
         productRepository.save(product);
