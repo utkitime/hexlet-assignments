@@ -46,7 +46,7 @@ public class ProductsController {
                                              @RequestParam(required = false) Integer priceLt,
                                              @RequestParam(required = false) Integer priceGt,
                                              @RequestParam(required = false) Double ratingGt,
-                                             @RequestParam(defaultValue = "0") int page,
+                                             @RequestParam(defaultValue = "1") int page,
                                              @RequestParam(defaultValue = "10") int size) {
         ProductParamsDTO params = new ProductParamsDTO();
         params.setTitleCont(titleCont);
