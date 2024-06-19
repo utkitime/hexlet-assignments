@@ -7,6 +7,7 @@ import exercise.mapper.ProductMapper;
 import exercise.model.Product;
 import exercise.specification.ProductSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -58,7 +59,7 @@ public class ProductsController {
                         .and(ProductSpecification.withRatingGreaterThan(ratingGt))
         );
 
-        List<Product> products = productRepository.findAll(spec);
+        var products = productRepository.findAll(spec, PageRequest.of(page - 1, size));
 
         return products.stream()
                 .map(productMapper::map)
