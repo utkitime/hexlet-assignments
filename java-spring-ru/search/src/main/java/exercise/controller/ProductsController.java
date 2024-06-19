@@ -60,7 +60,7 @@ public class ProductsController {
 
         List<Product> products = productRepository.findAll(spec);
 
-        List<ProductDTO> productDTOs = products.stream()
+        return products.stream()
                 .map(productMapper::map)
                 .toList();
     }
