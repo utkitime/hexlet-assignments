@@ -13,6 +13,15 @@ import java.util.List;
 
 @Component
 public class ProductSpecification {
+    public Specification<Product> build(ProductParamsDTO params) {
+        return withCategoryId(params.getCategoryId())
+                .and(withTitleContaining(params.getTitleCont())
+                        .and(withPriceGreaterThan(params.getPriceGt()))
+                        .and(withPriceLessThan(params.getPriceLt()))
+                        .and(withRatingGreaterThan(params.getRatingGt()))
+                );
+    }
+
     public static Specification<Product> withCategoryId(Long categoryId) {
         return (root, query, cb) -> categoryId == null ? cb.conjunction() : cb.equal(root.get("category").get("id"), categoryId);
     }

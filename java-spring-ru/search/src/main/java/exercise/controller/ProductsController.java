@@ -2,13 +2,12 @@ package exercise.controller;
 
 import exercise.dto.ProductCreateDTO;
 import exercise.dto.ProductDTO;
+import exercise.dto.ProductParamsDTO;
 import exercise.dto.ProductUpdateDTO;
 import exercise.mapper.ProductMapper;
-import exercise.model.Product;
 import exercise.specification.ProductSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +25,6 @@ import exercise.repository.ProductRepository;
 import jakarta.validation.Valid;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/products")
@@ -37,28 +35,14 @@ public class ProductsController {
     @Autowired
     private ProductMapper productMapper;
 
-//    @Autowired
-//    private ProductService productService;
-
     @Autowired
     private ProductSpecification specBuilder;
 
     @GetMapping("")
-    public List<ProductDTO> getFilteredProducts(@RequestParam(required = false) String titleCont,
-                                                @RequestParam(required = false) Long categoryId,
-                                                @RequestParam(required = false) Integer priceLt,
-                                                @RequestParam(required = false) Integer priceGt,
-                                                @RequestParam(required = false) Double ratingGt,
+    public List<ProductDTO> getFilteredProducts(ProductParamsDTO params,
                                                 @RequestParam(defaultValue = "1") int page,
                                                 @RequestParam(defaultValue = "10") int size) {
-        Specification<Product> spec = Specification.where(
-                ProductSpecification.withCategoryId(categoryId)
-                        .and(ProductSpecification.withTitleContaining(titleCont))
-                        .and(ProductSpecification.withPriceLessThan(priceLt))
-                        .and(ProductSpecification.withPriceGreaterThan(priceGt))
-                        .and(ProductSpecification.withRatingGreaterThan(ratingGt))
-        );
-
+        var spec = specBuilder.build(params);
         var products = productRepository.findAll(spec, PageRequest.of(page - 1, size));
 
         return products.stream()
