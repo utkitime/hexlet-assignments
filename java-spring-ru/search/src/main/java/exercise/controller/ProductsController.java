@@ -2,13 +2,12 @@ package exercise.controller;
 
 import exercise.dto.ProductCreateDTO;
 import exercise.dto.ProductDTO;
-import exercise.dto.ProductParamsDTO;
 import exercise.dto.ProductUpdateDTO;
 import exercise.mapper.ProductMapper;
+import exercise.model.Product;
 import exercise.specification.ProductSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,19 +50,19 @@ public class ProductsController {
                                                 @RequestParam(required = false) Double ratingGt,
                                                 @RequestParam(defaultValue = "1") int page,
                                                 @RequestParam(defaultValue = "10") int size) {
-        ProductParamsDTO params = new ProductParamsDTO();
-        params.setTitleCont(titleCont);
-        params.setCategoryId(categoryId);
-        params.setPriceLt(priceLt);
-        params.setPriceGt(priceGt);
-        params.setRatingGt(ratingGt);
+        Specification<Product> spec = Specification.where(
+                ProductSpecification.withCategoryId(categoryId)
+                        .and(ProductSpecification.withTitleContaining(titleCont))
+                        .and(ProductSpecification.withPriceLessThan(priceLt))
+                        .and(ProductSpecification.withPriceGreaterThan(priceGt))
+                        .and(ProductSpecification.withRatingGreaterThan(ratingGt))
+        );
 
-        var spec = specBuilder.build(params);
-        var products = productRepository.findAll(spec, PageRequest.of(page - 1, size));
+        List<Product> products = productRepository.findAll(spec);
 
-        return products.stream()
+        List<ProductDTO> productDTOs = products.stream()
                 .map(productMapper::map)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @PostMapping("")
@@ -71,8 +70,7 @@ public class ProductsController {
     ProductDTO create(@Valid @RequestBody ProductCreateDTO productData) {
         var product = productMapper.map(productData);
         productRepository.save(product);
-        var productDto = productMapper.map(product);
-        return productDto;
+        return productMapper.map(product);
     }
 
     @GetMapping("/{id}")
@@ -80,8 +78,7 @@ public class ProductsController {
     ProductDTO show(@PathVariable Long id) {
         var product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not Found: " + id));
-        var productDto = productMapper.map(product);
-        return productDto;
+        return productMapper.map(product);
     }
 
     @PutMapping("/{id}")
@@ -92,8 +89,7 @@ public class ProductsController {
 
         productMapper.update(productData, product);
         productRepository.save(product);
-        var productDto = productMapper.map(product);
-        return productDto;
+        return productMapper.map(product);
     }
 
     @DeleteMapping("/{id}")

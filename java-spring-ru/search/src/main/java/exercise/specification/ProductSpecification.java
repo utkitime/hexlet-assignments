@@ -13,31 +13,24 @@ import java.util.List;
 
 @Component
 public class ProductSpecification {
-    public Specification<Product> build(ProductParamsDTO params) {
-        return (root, query, cb) -> {
-            List<Predicate> predicates = new ArrayList<>();
-
-            if (params.getTitleCont() != null && !params.getTitleCont().isEmpty()) {
-                predicates.add(cb.like(cb.lower(root.get("title")), "%" + params.getTitleCont().toLowerCase() + "%"));
-            }
-
-            if (params.getCategoryId() != null) {
-                predicates.add(cb.equal(root.get("category").get("id"), params.getCategoryId()));
-            }
-
-            if (params.getPriceLt() != null) {
-                predicates.add(cb.lessThan(root.get("price"), params.getPriceLt()));
-            }
-
-            if (params.getPriceGt() != null) {
-                predicates.add(cb.greaterThan(root.get("price"), params.getPriceGt()));
-            }
-
-            if (params.getRatingGt() != null) {
-                predicates.add(cb.greaterThan(root.get("rating"), params.getRatingGt()));
-            }
-
-            return cb.and(predicates.toArray(new Predicate[0]));
-        };
+    public static Specification<Product> withCategoryId(Long categoryId) {
+        return (root, query, cb) -> categoryId == null ? cb.conjunction() : cb.equal(root.get("category").get("id"), categoryId);
     }
+
+    public static Specification<Product> withTitleContaining(String titleCont) {
+        return (root, query, cb) -> titleCont == null ? cb.conjunction() : cb.like(cb.lower(root.get("title")), "%" + titleCont.toLowerCase() + "%");
+    }
+
+    public static Specification<Product> withPriceLessThan(Integer priceLt) {
+        return (root, query, cb) -> priceLt == null ? cb.conjunction() : cb.lessThan(root.get("price"), priceLt);
+    }
+
+    public static Specification<Product> withPriceGreaterThan(Integer priceGt) {
+        return (root, query, cb) -> priceGt == null ? cb.conjunction() : cb.greaterThan(root.get("price"), priceGt);
+    }
+
+    public static Specification<Product> withRatingGreaterThan(Double ratingGt) {
+        return (root, query, cb) -> ratingGt == null ? cb.conjunction() : cb.greaterThan(root.get("rating"), ratingGt);
+    }
+
 }
