@@ -49,7 +49,6 @@ public class BookService {
     public BookDTO findById(Long id) {
         var book = bookRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Not Found: " + id));
-        authorRepository.findById(book.getA)
         return bookMapper.map(book);
     }
 
