@@ -7,7 +7,10 @@ import exercise.exception.ResourceNotFoundException;
 import exercise.mapper.BookMapper;
 import exercise.repository.AuthorRepository;
 import exercise.repository.BookRepository;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,13 +34,16 @@ public class BookService {
                 .toList();
     }
 
-    public BookDTO create(BookCreateDTO bookData) {
-        authorRepository.findById(bookData.getAuthorId()).orElseThrow(
-                () -> new ResourceNotFoundException("Author with id " + bookData.getAuthorId() + " not found")
-        );
+    public ResponseEntity<?> create(BookCreateDTO bookData) {
+
+        var author = authorRepository.findById(bookData.getAuthorId());
+        if (author.isEmpty()) {
+            return new ResponseEntity<>("Author not found", HttpStatus.BAD_REQUEST);
+        }
         var book = bookMapper.map(bookData);
         bookRepository.save(book);
-        return bookMapper.map(book);
+
+        return new ResponseEntity<>(bookMapper.map(book), HttpStatus.CREATED);
     }
 
     public BookDTO findById(Long id) {

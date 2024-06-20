@@ -39,7 +39,7 @@ public class BooksController {
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public BookDTO createBook(@Valid @RequestBody BookCreateDTO bookData) {
+    public ResponseEntity<?> createBook(@Valid @RequestBody BookCreateDTO bookData) {
         return bookService.create(bookData);
     }
 
