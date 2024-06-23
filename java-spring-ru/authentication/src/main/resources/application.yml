@@ -9,6 +9,6 @@ spring:
     ansi:
       enabled: always
 
-# BEGIN
-
-# END
+rsa:
+  private-key: classpath:certs/private.pem
+  public-key: classpath:certs/public.pem
