@@ -15,6 +15,11 @@ public class JWTUtils {
     @Autowired
     private JwtEncoder encoder;
 
+    @Autowired
+    public JWTUtils(JwtEncoder encoder) {
+        this.encoder = encoder;
+    }
+
     public String generateToken(String username) {
         Instant now = Instant.now();
         JwtClaimsSet claims = JwtClaimsSet.builder()
