@@ -41,8 +41,7 @@ public class UserController {
 
         var user =  userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User with id " + id + " not found"));
-        var userDto = userMapper.map(user);
-        return userDto;
+        return userMapper.map(user);
     }
 
     @PostMapping(path = "")
@@ -50,7 +49,6 @@ public class UserController {
     public UserDTO create(@Valid @RequestBody UserCreateDTO userData) {
         var user = userMapper.map(userData);
         userRepository.save(user);
-        var userDto = userMapper.map(user);
-        return userDto;
+        return userMapper.map(user);
     }
 }

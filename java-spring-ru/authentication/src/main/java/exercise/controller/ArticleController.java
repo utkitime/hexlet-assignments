@@ -42,7 +42,7 @@ public class ArticleController {
     private UserUtils userUtils;
 
 
-    @PostMapping
+    @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     public ArticleDTO createArticle(@RequestBody ArticleCreateDTO articleData) {
         Article article = articleMapper.map(articleData);
