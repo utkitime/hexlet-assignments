@@ -47,13 +47,10 @@ public class ArticleController {
     public ArticleDTO createArticle(@RequestBody ArticleCreateDTO articleData) {
         Article article = articleMapper.map(articleData);
 
-        // Найти текущего пользователя по его ID
         User currentUser = userUtils.getCurrentUser();
 
-        // Установить автора статьи
         article.setAuthor(currentUser);
 
-        // Сохранить статью в базе данных
         Article savedArticle = articleRepository.save(article);
         return articleMapper.map(savedArticle);
     }
